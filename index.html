@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>web-name-card</title>
+    <style>
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+
+            background-color: #EEE;
+            box-shadow:
+                0 0 1px #111 inset,
+                0 0 5px #222 inset,
+                0 0 10px #333 inset,
+                0 0 30px #555 inset;
+        }
+        *{ font-size: 0;}
+        h1 {
+            font-family: "Turret Road", sans-serif;
+            font-weight: 900;
+            font-style: normal;
+            font-size: 40pt;
+            margin: 0.5em;
+            color:#E0E0E0;
+        }
+        main {
+            box-sizing: border-box;
+            position: absolute;
+            top:0;
+            right:0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            aspect-ratio: 1 / 1;
+            max-width: 90%;
+            max-height: 90%;
+
+            transform-style: preserve-3d;
+            perspective:3000px;
+        }
+        footer {
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            text-align: right;
+            box-sizing: border-box;
+        }
+        footer small {
+            font-size: 8pt;
+            color:#999;
+        }
+
+        #card-box {
+            position: absolute;
+            top:0;
+            right:0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            box-sizing: border-box;
+
+            aspect-ratio: 97 / 148.5;
+            height: 100%;
+
+            background-color: #F0F9F9;
+
+
+            transform-style: preserve-3d;
+
+            transform: rotateX(10deg);
+            animation-duration: 6s;
+            animation-name: wait;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes wait {
+            0% {
+                transform: rotateY(0deg) rotateX(0deg);
+            }
+            20% {
+                transform: rotateY(2deg) rotateX(10deg);
+            }
+            40% {
+                transform: rotateY(180deg) rotateX(-0deg) rotateZ(-90deg);
+            }
+            60% {
+                transform: rotateY(185deg) rotateX(-10deg) rotateZ(-93deg);
+            }
+            90% {
+                /* transform: rotateY(360deg) rotateX(0deg); */
+            }
+            100% {
+                transform: rotateY(360deg) rotateX(0deg);
+            }
+        }
+
+        .card {
+            position: absolute;
+            top:0;
+            left:0;
+
+            width: 100%;
+            height: 100%;
+
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+
+            box-shadow: 0 0 3px #533;
+        }
+        #card-front {
+            background-image: url();
+        }
+        
+        #card-front {
+            z-index: 300;
+            transform: translateZ(2px);
+            background-color: #FAA;
+            background-color: #EEE;
+        }
+        
+        #card-height {
+            z-index: 200;
+        }
+        
+        #card-back {
+            z-index: 100;
+            transform: translateZ(-2px) rotateY(180deg);
+            background-color: #AAF;
+            background-color: #EEE;
+        }
+
+
+
+        /* -------------------------------------------------- */
+        #password-screen {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.0);
+            width: 100%;
+            height: 100%;
+            top:-100%;
+            left:0;
+            z-index: 900;
+            transition: all 0.1s ease-out;
+        }
+        #password-window {
+            width: 75%;
+            max-width: 700px;
+            height: 90%;
+            top:-100%;
+            right: 0;
+            left: 0;
+            margin: auto;
+
+            background-color: #EEE;
+            border: solid 1px #AAA;
+            box-shadow: 0 0 10px #333;
+            border-radius: 15px;
+            padding: 40%;
+            box-sizing: border-box;
+            position: absolute;
+            overflow: hidden;
+
+            text-align: center;
+            transition: all 0.1s ease-out;
+        }
+        #password-screen.active {
+            top:0;
+            transition: all 0.2s ease-out;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        #password-screen.active #password-window {
+            width: 90%;
+            top: 5%;
+            transition: all 0.3s ease-out;
+            box-shadow: 0 0 20px #333;
+            padding: 20px;
+        }
+        #password-window .txt {
+            font-size: 16px;
+        }
+        #password-window h2.txt {
+            font-size: 24px;
+            height: 60px;
+            border-bottom: solid 2px #888;
+            margin-bottom: 30px;
+        }
+        #password-input {
+            width: 80%;
+            box-sizing: border-box;
+            height: 60px;
+            line-height: 55px;
+            font-size: 30px;
+            padding: 12px;
+
+            border: solid 1px #555;
+            border-radius: 3px;
+        }
+        #password-submit {
+            width: 80%;
+            box-sizing: border-box;
+            height: 44px;
+            line-height: 40px;
+
+            margin-top: 20px;
+            background-color: #56A;
+            border: solid 2px #123;
+            border-radius: 6px;
+
+            color:#EEE;
+        }
+        #password-submit:active  {
+            background-color: #56F;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Turret+Road:wght@800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>web-name-card<span id="result"></span></h1>
+    <main>
+        <div id="card-box">
+            <div class="card" id="card-front"></div>
+            <div class="card" id="card-height"></div>
+            <div class="card" id="card-back"></div>
+        </div>
+    </main>
+    <footer><small>Copyright&copy; yaoi mitsunashi. 2024</small></footer>
+
+    <div id="password-screen" class="">
+        <div id="password-window">
+            <h2 class="txt">パスワード</h2>
+            <input type="password" id="password-input" class="txt" placeholder="password">
+            <button id="password-submit" class="txt">submit</button>
+        </div>
+    </div>
+    <script>
+        // window.document.addEventListener('click',e=>{
+        //     const PWD_SCREEN_CSS_CLASS='active';
+        //     let elmPasswordScreen = document.getElementById('password-screen');
+        //     if (elmPasswordScreen.classList.contains(PWD_SCREEN_CSS_CLASS)) {
+        //         elmPasswordScreen.classList.remove(PWD_SCREEN_CSS_CLASS);
+        //     } else {
+        //         elmPasswordScreen.classList.add(PWD_SCREEN_CSS_CLASS);
+        //     }
+        // }, false);
+
+        window.addEventListener('load',async e=>{
+            let name = (new URLSearchParams(document.location.search)).get("name");
+            if (!name) {
+                name='taro';
+            }
+            console.log('name = ' + name);
+            await getData(name);
+            console.log('getData end');
+            // xhr.open('GET', 'data/' + BACK, true);
+
+            async function getData(name) {
+                const FRONT = '-f.json';
+                const BACK  = '-b.json';
+
+                name=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(name)))).map(v => v.toString(16).padStart(2,'0')).join('');
+
+                let flgF = false;
+                let flgB = false;
+
+                let elmF = document.getElementById('card-front');
+                let elmB = document.getElementById('card-back');
+                elmF.style.backgroundImage = '';
+                elmB.style.backgroundImage = '';
+
+                let urlF = 'data/' + name + FRONT;
+                let urlB = 'data/' + name + BACK;
+
+                getDataByAjax(urlF, elmF);
+                getDataByAjax(urlB, elmB);
+
+                while (true) {
+                    if (elmF.style.backgroundImage !== '' && elmB.style.backgroundImage !== '') {
+                        break;
+                    }
+                    await wait(0.5);
+                }
+                async function wait(second) {
+            	    return new Promise(resolve => setTimeout(resolve, 1000 * second));
+                }
+
+                function getDataByAjax(url, elm) {
+
+                    console.log('getDataByAjax : ' + url);
+                    let xhr = new XMLHttpRequest();
+
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4) { // 通信の完了時
+                            if (xhr.status == 200) { // 通信の成功時
+                                let data = JSON.parse(xhr.responseText);
+                                console.dir(xhr.responseURL);
+                                console.dir(data);
+
+                                elm.style.backgroundImage = 'url("data:'+data.image.mime+';base64,'+data.image.data+'")';
+
+                                // if (xhr.responseURL.indexOf(FRONT) > 0) {
+                                //     elmF.style.backgroundImage = 'url("data:'+data.image.mime+';base64,'+data.image.data+'")';
+                                // } else if (xhr.responseURL.indexOf(BACK) > 0) {
+                                //     flgB.style.backgroundImage = 'url("data:'+data.image.mime+';base64,'+data.image.data+'")';
+                                // } else {
+                                //     console.log('error : ' + xhr.responseURL);
+                                // }
+                            }
+                        }else{
+                            result.innerHTML = "通信中...";
+                        }
+                    }
+                    xhr.open('GET', url, true);
+                    xhr.send(null);
+                }
+
+            }
+        },false);
+
+    </script>
+</body>
+</html>

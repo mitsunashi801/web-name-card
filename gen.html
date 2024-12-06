@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gen</title>
+</head>
+<body>
+    <input type="text" id="name">
+    <br>
+    <input type="file" id="f1">
+    <br>
+    <input type="file" id="f2">
+    <br>
+    <button id="smt">submit</button>
+    <script>
+        document.getElementById('smt').addEventListener('click',async ()=>{
+            let name=document.getElementById('name').value;
+            // let nameHash = await digest('SHA-256',new TextEncoder().encode(name));
+            let nameHash = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(name)))).map(v => v.toString(16).padStart(2,'0')).join('');
+            console.log(nameHash);
+
+        },false);
+    </script>
+</body>
+</html>
